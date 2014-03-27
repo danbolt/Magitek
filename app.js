@@ -8,6 +8,8 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var util = require('util');
+var fs = require('fs');
 
 var app = express();
 
@@ -25,6 +27,11 @@ app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+if (!fs.existsSync('./saves'))
+{
+	fs.mkdirSync('./saves');
+}
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -34,7 +41,12 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.post('/save', function(req, res) {
-	console.log("Filename: " + req.body);
+	console.log(req.files.savegame.path);
+
+	res.end();
+
+	var d = new Date();
+	fs.rename(req.files.savegame.path, './saves/save-' + d.getTime());
 } );
 
 http.createServer(app).listen(app.get('port'), function(){
