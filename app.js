@@ -45,8 +45,11 @@ app.post('/save', function(req, res) {
 
 	res.end();
 
-	var d = new Date();
-	fs.rename(req.files.savegame.path, './saves/save-' + d.getTime());
+	if (req.files.savegame.size == 8192)
+	{
+		var d = new Date();
+		fs.rename(req.files.savegame.path, './saves/save-' + d.getTime());
+	}
 } );
 
 http.createServer(app).listen(app.get('port'), function(){
