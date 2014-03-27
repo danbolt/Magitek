@@ -40,9 +40,22 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-app.post('/save', function(req, res) {
-	console.log(req.files.savegame.path);
+// query save info JSON
+app.get('/saveInfo', function(req, res) {
 
+	var saveInfoData = [];
+
+	var files = fs.readdirSync('./saves');
+	files.forEach(function(entry)
+	{
+		saveInfoData.push({name: entry});
+	});
+
+	res.send(saveInfoData);
+});
+
+// upload save
+app.post('/save', function(req, res) {
 	res.end();
 
 	if (req.files.savegame.size == 8192)
