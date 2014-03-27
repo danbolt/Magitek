@@ -56,12 +56,12 @@ app.get('/saveInfo', function(req, res) {
 
 // upload save
 app.post('/save', function(req, res) {
-	res.end();
-
 	if (req.files.savegame.size == 8192)
 	{
 		var d = new Date();
-		fs.rename(req.files.savegame.path, './saves/save-' + d.getTime());
+		fs.rename(req.files.savegame.path, './saves/save-' + d.getUTCFullYear() + '-' + d.getUTCMonth() + '-' +d.getUTCDay() + '-' +d.getUTCHours() + '-' +d.getUTCMinutes() + ".srm");
+
+		res.end();
 	}
 } );
 

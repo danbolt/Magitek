@@ -24,7 +24,8 @@ $(document).ready(function()
 
 	$("#fileuploader").uploadFile({
 	url:"save",
-	fileName:"savegame"
+	fileName:"savegame",
+	onSuccess:querySaveInformation
 	});
 
 	querySaveInformation();
